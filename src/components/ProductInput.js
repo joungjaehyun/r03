@@ -1,4 +1,5 @@
 import { useRef, useState } from "react";
+import { postProduct } from "../api/productAPI";
 
 const initState = {
     title:'',
@@ -35,7 +36,11 @@ const ProductInput = () => {
      for(let file of arr){
         formData.append("files",file)
      }
-    
+     
+     postProduct(formData).then( e=>{
+        alert('업로드 성공')
+        setBoard({...initState})
+     })
 
     }
     const handleClickClear = (e) =>{
