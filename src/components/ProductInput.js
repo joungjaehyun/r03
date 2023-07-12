@@ -2,10 +2,10 @@ import { useRef, useState } from "react";
 import { postProduct } from "../api/productAPI";
 
 const initState = {
-    title:'',
-    content: '',
-    writer: '',
-    images:[]
+    pname:'',
+    pdesc: '',
+    price: 0
+ 
 }
 
 
@@ -14,20 +14,20 @@ const ProductInput = () => {
     // document.getElementById 처럼 쓰고싶을때 사용
     const fileRef = useRef()
 
-    const[board,setBoard] =useState({...initState})
+    const[product,setProduct] =useState({...initState})
     
     const handleChage = (e) =>{
 
-        board[e.target.name] = e.target.value
-        setBoard({...board})
+        product[e.target.name] = e.target.value
+        setProduct({...product})
     }
     const handleClickSave = (e) =>{
 
      const formData = new FormData();
 
-     formData.append("title",board.title)
-     formData.append("content",board.content)
-     formData.append("writer",board.writer)
+     formData.append("pname",product.pname)
+     formData.append("pdesc",product.pdesc)
+     formData.append("price",product.price)
 
      console.dir(fileRef.current)
      
@@ -38,8 +38,8 @@ const ProductInput = () => {
      }
      
      postProduct(formData).then( e=>{
-        alert('업로드 성공')
-        setBoard({...initState})
+
+        setProduct({...initState})
      })
 
     }
@@ -52,13 +52,13 @@ const ProductInput = () => {
         <div>
             <h1>Input</h1>
             <div>
-                <input type="text" name="title" value={board.title} onChange={handleChage}></input>
+                <input type="text" name="pname" value={product.pname} onChange={handleChage}></input>
             </div>
             <div>
-                <input type="text" name="content" value={board.content} onChange={handleChage}></input>
+                <input type="text" name="pdesc" value={product.pdesc} onChange={handleChage}></input>
             </div>
             <div>
-                <input type="text" name="writer" value={board.writer} onChange={handleChage} ></input>
+                <input type="number" name="price" value={product.price} onChange={handleChage} ></input>
             </div>
             {/* 첨부파일은 기존의 처리방식과 확연히 달라진다. 
                 처리시에 ref를 처리한다.
